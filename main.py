@@ -26,3 +26,12 @@ def update_user(user_id):
     data = request.json
     user.update(data)
     return '', 204
+@app.route('/users/<int:user_id>', methods=['PUT'])
+def replace_user(user_id):
+    user = next((u for u in users if u['id'] == user_id), None)
+    if user:
+        users.remove(user)
+    new_user = request.json
+    new_user['id'] = user_id
+    users.append(new_user)
+    return '', 204
