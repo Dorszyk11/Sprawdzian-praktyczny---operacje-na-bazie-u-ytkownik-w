@@ -35,3 +35,10 @@ def replace_user(user_id):
     new_user['id'] = user_id
     users.append(new_user)
     return '', 204
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = next((u for u in users if u['id'] == user_id), None)
+    if not user:
+        return jsonify({'error': 'Not found'}), 404
+    users.remove(user)
+    return '', 204
