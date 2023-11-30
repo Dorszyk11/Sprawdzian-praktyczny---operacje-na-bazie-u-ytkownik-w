@@ -18,3 +18,11 @@ def create_user():
     next_id += 1
     users.append(data)
     return jsonify(data), 201
+@app.route('/users/<int:user_id>', methods=['PATCH'])
+def update_user(user_id):
+    user = next((u for u in users if u['id'] == user_id), None)
+    if not user:
+        return jsonify({'error': 'Not found'}), 404
+    data = request.json
+    user.update(data)
+    return '', 204
